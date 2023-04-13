@@ -1,16 +1,46 @@
-fn unique(a: Vec<i32>) -> Vec<i32> {
-    todo!()
-}
+// fn unique(mut a: Vec<i32>) -> Vec<i32> {
+//     a.sort_unstable();
+//     a.dedup();
+//     a
+// }
+
+// fn unique(mut a: Vec<i32>) -> Vec<i32> {
+//     let mut a_unique = Vec::new();
+//     a.sort();
+//     for item in a {
+//         if a_unique.last() != Some(&item) {
+//             a_unique.push(item);
+//         }
+//     }
+
+//     a_unique
+// }
 
 // advanced 1: use generic types
-// fn unique(a: Vec<T>) -> Vec<T> {
-//     todo!();
+// fn unique<T: Ord>(mut a: Vec<T>) -> Vec<T> {
+//     let mut a_unique = Vec::new();
+//     a.sort();
+//     for item in a {
+//         if a_unique.last() != Some(&item) {
+//             a_unique.push(item);
+//         }
+//     }
+
+//     a_unique
 // }
 
 // advanced 2: keep items in order
-// fn unique(a: Iterable<T>) -> Vec<T> {
-//     todo!();
-// }
+fn unique<T: Ord>(a: &mut [T]) -> Vec<T> {
+    let mut a_unique = Vec::new();
+    let mut seen = std::collections::HashSet::new();
+    for item in a.iter() {
+        if seen.insert(item) {
+            a_unique.push(*item);
+        }
+    }
+    a_unique.sort();
+    a_unique
+}
 
 // advanced 3: use iterators
 // fn unique(a: Iterable<T>) -> Vec<T> {
@@ -18,14 +48,14 @@ fn unique(a: Vec<i32>) -> Vec<i32> {
 // }
 
 fn main() {
-    let input = vec![2, 1, 1];
+    let input: Vec<u32> = vec![2, 1, 1];
     let answer = unique(input);
     println!("unique items -> {:?}", answer)
 }
 
 #[test]
 fn empty_list() {
-    let input = vec![];
+    let input: Vec<u32> = vec![];
     let expected_output = vec![];
     let actual_output = unique(input);
     assert_eq!(actual_output, expected_output);
