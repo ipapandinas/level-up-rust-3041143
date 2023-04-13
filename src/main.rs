@@ -1,5 +1,7 @@
-fn info(a: &T) {
-    todo!();
+use std::io::Write;
+
+fn info<T: ToString>(a: &T) -> usize {
+    std::io::stdout().write(a.to_string().as_bytes()).unwrap()
 }
 
 fn main() {
@@ -9,17 +11,16 @@ fn main() {
     info(&b);
 
     // Advanced 1
-    // use std::ffi::CString;
-    
-    // let c = CString::new("?").unwrap();
-    // info(&input);
+    use std::ffi::CString;
+
+    let c = CString::new("?").unwrap();
+    info(&c.to_string_lossy());
 
     // Advanced 2
     // use std::path::Path;
     // let d = Path::new("/tmp/linkedin-learning");
     // info(d);
 }
-
 
 #[test]
 fn str() {
