@@ -1,11 +1,18 @@
 fn sum_with_missing(numbers: Vec<Option<i32>>) -> i32 {
-    todo!();
+    let mut sum = 0;
+    for num in numbers {
+        let value = match num {
+            Some(num) => num,
+            _ => 0,
+        };
+        sum += value
+    }
+    sum
 }
 
 fn main() {
     println!("");
 }
-
 
 #[test]
 fn empty() {
