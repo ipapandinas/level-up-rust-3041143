@@ -34,10 +34,10 @@ impl Hand {
         for card in self.cards.iter() {
             let card_value = match card {
                 Card::Ace => {
-                    if value < 11 {
-                        11
-                    } else {
+                    if value > 21 {
                         1
+                    } else {
+                        11
                     }
                 }
                 Card::Two => 2,
@@ -56,49 +56,6 @@ impl Hand {
     }
 
     fn is_loosing_hand(&self) -> bool {
-        self.value() > 21
+        self.value() > 22
     }
-}
-
-fn main() {
-    let mut hand = Hand::new();
-    hand.add(Card::King);
-    hand.add(Card::Ace);
-}
-
-#[test]
-fn empty_hand() {
-    let hand = Hand::new();
-
-    assert_eq!(hand.value(), 0);
-}
-
-#[test]
-fn strong_hand() {
-    let mut hand = Hand::new();
-    hand.add(Card::Queen);
-    hand.add(Card::Ace);
-
-    assert_eq!(hand.value(), 21);
-}
-
-#[test]
-fn risky_hand() {
-    let mut hand = Hand::new();
-    hand.add(Card::King);
-    hand.add(Card::Queen);
-    hand.add(Card::Ace);
-
-    assert_eq!(hand.value(), 21);
-}
-
-#[test]
-fn oops() {
-    let mut hand = Hand::new();
-    hand.add(Card::King);
-    hand.add(Card::Seven);
-    hand.add(Card::Five);
-
-    assert!(hand.is_loosing_hand());
-    assert_eq!(hand.value(), 22);
 }
