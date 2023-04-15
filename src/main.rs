@@ -2,7 +2,7 @@ use std::fmt::Display;
 use std::str::FromStr;
 
 #[derive(Debug, PartialEq)]
-struct Rgb; // TODO: design data structure
+struct Rgb(u8, u8, u8);
 
 trait RgbChannels {
     fn r(&self) -> u8;
@@ -13,11 +13,30 @@ trait RgbChannels {
 }
 
 impl RgbChannels for Rgb {
-    // TODO: implement trait
+    fn r(&self) -> u8 {
+        self.0
+    }
+    fn g(&self) -> u8 {
+        self.1
+    }
+    fn b(&self) -> u8 {
+        self.2
+    }
 }
 
 impl FromStr for Rgb {
-    // TODO: implement trait
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        if s.chars().next() != Some('#') {
+            return Err(());
+        }
+
+        let r = u8::from_str_radix(&s[1..3], 16).unwrap();
+        let g = u8::from_str_radix(&s[3..5], 16).unwrap();
+        let b = u8::from_str_radix(&s[5..], 16).unwrap();
+        Ok(Rgb(r, g, b))
+    }
 }
 
 impl Display for Rgb {
@@ -27,7 +46,7 @@ impl Display for Rgb {
 }
 
 fn main() {
-    // 
+    //
 }
 
 #[test]
@@ -43,19 +62,19 @@ fn every_color() {
 
 #[test]
 #[should_panic]
-fn too_short () {
+fn too_short() {
     let _: Rgb = "1234".parse().unwrap();
 }
 
 #[test]
 #[should_panic]
-fn not_a_hex_code () {
+fn not_a_hex_code() {
     let _: Rgb = "?".parse().unwrap();
 }
 
 #[test]
 #[should_panic]
-fn invalid_literals () {
+fn invalid_literals() {
     let _: Rgb = "?".parse().unwrap();
 }
 
@@ -70,4 +89,3 @@ fn no_leading_hash() {
 fn out_of_bounds() {
     let _: Rgb = "00gg00".parse().unwrap();
 }
-
