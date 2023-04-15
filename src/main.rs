@@ -1,11 +1,16 @@
+use chrono::prelude::*;
+
 fn weeks_between(a: &str, b: &str) -> i32 {
-    todo!()
+    let date_a = NaiveDate::parse_from_str(a, "%Y-%m-%d").unwrap();
+    let date_b = NaiveDate::parse_from_str(b, "%Y-%m-%d").unwrap();
+    let duration = date_b.signed_duration_since(date_a);
+    duration.num_weeks() as i32
 }
 
 fn main() {
     let n_weeks = weeks_between("2010-01-21", "2010-10-21");
 
-    println!("hello: {}", n_weeks);
+    println!("hello: {:?}", n_weeks);
 }
 
 #[test]
